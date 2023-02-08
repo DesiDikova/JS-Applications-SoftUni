@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch</title>
+</head>
+
+<body>
+    <button id="load">Load Repos</button>
+    <div id="res"></div>
+
+    <script>
+        let button = document.querySelector('#load');
+        let resElement = document.getElementById('res');
+        let url = 'https://api.github.com/users/testnakov/repos';
+
+        button.addEventListener('click', () => { //искам като кликнеш върху бутона,
+            fetch(url) //да фетчнеш(fetch) на този url,
+                .then(respose => respose.json()) //след което да вземеш response да го обърнещ в json,
+                .then(result => { //след което да вземем result, който е json-а 
+                    resElement.textContent = result.map(x => x.name).join(' | '); //- да се закрепи по посочения начин, който е описан
+                })
+                //Когато правим асинхронни операции (когато има промис), винаги трябва да се записва catch.
+                .catch(err => console.log(err)); //след това, ако нещо от описаните неща не фетчне, нека се изпълни catch
+        });
+    </script>
+</body>
+
+</html>

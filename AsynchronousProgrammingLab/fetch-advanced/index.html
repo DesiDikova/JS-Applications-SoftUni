@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Phonebook</h1>
+
+    <input type="text" name="phonename" id="phonename">
+    <button id="add">Add</button>
+
+    <button id="load">Click</button>
+    <ul id="phonebook-list">
+
+    </ul>
+
+    <script>
+        const url = 'http://localhost:3030/jsonstore'
+        const phoneNameElement = document.getElementById('phonename');
+        const buttonAddElement = document.getElementById('add');
+        const buttonElement = document.getElementById('load');
+        const phoneList = document.getElementById('phonebook-list');
+
+        buttonElement.addEventListener('click', () => {
+            fetch(`${url}/phonebook`)
+                .then(response => response.json())
+                .then(data => {
+                    phoneList.innerHTML = ''; //изчиствам стойността на целия елемент
+                    Object.values(data)
+                        .forEach(phonebook => {
+                            let phoneElement = document.createElement('li');
+                            phoneElement.textContent = phonebook.person;
+                            phoneList.appendChild(phoneElement);
+                        });
+                    //.catch(error => console.log(error));
+                });
+        });
+
+        buttonAddElement.addEventListener('click', () => {
+            let phoneName = phoneNameElement.value;
+
+            fetch(`${url}/phonebook`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({ phoneName })
+            })
+                .then(response => response.json())
+                .then(phonebook => {
+                    let phoneElement = document.createElement('li');
+                    phoneElement.textContent = phoneName;
+                    phoneList.appendChild(phoneElement);
+                })
+        });
+    </script>
+</body>
+
+</html>

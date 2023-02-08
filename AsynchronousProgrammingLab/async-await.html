@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <Async-Await>
+    </title>
+</head>
+
+<body>
+    <script>
+        const url = 'https://swapi.dev/api';
+
+        //Начини за записване на асинхронни функции, в които може да се използва await
+        //!!! Всяка асинхронна функция връща промис
+        //1. Фънкшан декларейшън; 2. Фънкшан експрешън; 3. Ароу функция.
+
+        //1.
+        async function getStarwarsCharacter(id) {
+            try {
+                let response = await fetch(`${url}/people/${id}`);
+                let character = await response.json();
+
+                return character;
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        //Извикване на асинхронната функция
+        getStarwarsCharacter(4)
+            .then(character => console.log(character))
+            .catch(err => console.log(err))
+
+
+        //2.
+// const getStarwarsCharacter = async function () {   
+// }
+
+        //3.
+// const getStarwarsCharacter = async () => {
+// }
+    </script>
+</body>
+
+</html>
